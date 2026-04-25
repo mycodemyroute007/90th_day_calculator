@@ -1,0 +1,36 @@
+# OS files
+.DS_Store
+Thumbs.db
+.env.local
+
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+
+# Build and dist files
+dist/
+build/
+.next/
+out/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Logs
+*.log
+logs/
+
+# Dependencies
+package-lock.json
+yarn.lock
