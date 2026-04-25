@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Future 90th Days App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Future 90th Days</h1>
+    <section class="controls">
+      <label for="startDate">Choose start date:</label>
+      <input type="date" id="startDate">
+      <br><br>
+      
+    </section>
+
+  <section class="dates" id="dates"></section>
+  <section id="calendar-container"></section>
+  <script>
+    // Calendar navigation state
+    let calendarYear = null;
+    let calendarMonth = null;
+    let calendarNinetieth = null;
+    let calendarBefore15 = null;
+    let calendarAfter7 = null;
+
+    // Listen for custom event to set calendar state from app.js
+    document.addEventListener('calendarInit', function(e) {
+      calendarYear = e.detail.year;
+      calendarMonth = e.detail.month;
+      calendarNinetieth = e.detail.ninetiethDate;
+      calendarBefore15 = e.detail.before15;
+      calendarAfter7 = e.detail.after7;
+      renderCalendarUI();
+    });
+
+    function renderCalendarUI() {
+      if (calendarYear === null || calendarMonth === null) return;
+      const container = document.getElementById('calendar-container');
+      let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <button id="cal-prev" style="background:#333;color:#fff;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;">&#8592;</button>
+        <span style="font-weight:bold;font-size:1.1em;">${new Date(calendarYear, calendarMonth).toLocaleString(undefined, { month: 'long', year: 'numeric' })}</span>
+        <button id="cal-next" style="background:#333;color:#fff;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;">&#8594;</button>
+      </div>`;
+      html += window.renderCalendarForMonth(calendarYear, calendarMonth, calendarNinetieth, calendarBefore15, calendarAfter7);
+      container.innerHTML = html;
+      document.getElementById('cal-prev').onclick = function() {
+        calendarMonth--;
+        if (calendarMonth < 0) { calendarMonth = 11; calendarYear--; }
+        renderCalendarUI();
+      };
+      document.getElementById('cal-next').onclick = function() {
+        calendarMonth++;
+        if (calendarMonth > 11) { calendarMonth = 0; calendarYear++; }
+        renderCalendarUI();
+      };
+    }
+  </script>
+
+  </main>
+  <script src="scripts/app.js"></script>
+</body>
+</html>
